@@ -2,3 +2,5 @@
 *.zwc.old
 modules/*/cache.zsh
 contrib
+.vscode
+*.code-workspace
