@@ -1,4 +1,4 @@
-# Prezto — Instantly Awesome Zsh
+# Prezto — Instantly Awesome Zsh (yian's fork)
 
 Prezto is the configuration framework for [Zsh][1]; it enriches the command line
 interface environment with sane defaults, aliases, functions, auto completion,
