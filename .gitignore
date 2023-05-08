@@ -4,3 +4,4 @@ modules/*/cache.zsh
 contrib
 .vscode
 *.code-workspace
+runcoms/zshrc.backup
