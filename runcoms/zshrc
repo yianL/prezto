@@ -48,5 +48,8 @@ if [ -f '/Users/yianl/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yia
 # aliases
 # -----------------------------
 alias venv="source env/bin/activate"
-alias gituncommit="git reset --soft HEAD~"
+alias guc="git reset --soft HEAD~"
 alias gco="git checkout"
+alias gs="git status"
+alias ga.="git add ."
+alias gcm="git commit -m"
