@@ -53,3 +53,7 @@ alias gco="git checkout"
 alias gs="git status"
 alias ga.="git add ."
 alias gcm="git commit -m"
+
+# -------------------- Gem make dev-env
+. "$HOME/.cargo/env"
+export PATH="$PATH:$HOME/.cargo/bin"
