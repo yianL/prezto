@@ -5,8 +5,8 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-export VISUAL='code --wait'
-export EDITOR='code --wait'
+export VISUAL='cursor --wait'
+export EDITOR='cursor --wait'
 export NVM_DIR="$HOME/.nvm"
 
 

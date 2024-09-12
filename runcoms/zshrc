@@ -28,9 +28,8 @@ export PATH="/Users/yianl/Code/gem/bin:/Users/yianl/Code/arcanist/bin:$PATH"
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 
 # NVM
-# [ -f "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -f "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -51,7 +50,7 @@ alias venv="source env/bin/activate"
 alias guc="git reset --soft HEAD~"
 alias gco="git checkout"
 alias gs="git status"
-alias ga.="git add ."
+alias gaa="git add ."
 alias gcm="git commit -m"
 
 # -------------------- Gem make dev-env
