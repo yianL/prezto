@@ -43,6 +43,19 @@ if [ -f '/Users/yianl/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yianl/goo
 # shell command completion for gcloud.
 if [ -f '/Users/yianl/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yianl/google-cloud-sdk/completion.zsh.inc'; fi
 
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
 # -----------------------------
 # aliases
 # -----------------------------
@@ -53,6 +66,30 @@ alias gs="git status"
 alias gaa="git add ."
 alias gcm="git commit -m"
 
+function tma() {
+  tmux new-session -s "$1" -A
+}
+
 # -------------------- Gem make dev-env
 . "$HOME/.cargo/env"
 export PATH="$PATH:$HOME/.cargo/bin"
+
+# --------------------
+# custom key bindings
+# --------------------
+bindkey -r "^L"  # disable ^L
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/yianl/.cache/lm-studio/bin"
+
+# --- fzf-tab ---
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
