@@ -28,8 +28,8 @@ export PATH="/Users/yianl/Code/gem/bin:/Users/yianl/Code/arcanist/bin:$PATH"
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 
 # NVM
-[ -f "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  #
 
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -71,7 +71,6 @@ function tma() {
 }
 
 # -------------------- Gem make dev-env
-. "$HOME/.cargo/env"
 export PATH="$PATH:$HOME/.cargo/bin"
 
 # --------------------

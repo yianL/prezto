@@ -8,6 +8,7 @@
 export VISUAL='cursor --wait'
 export EDITOR='cursor --wait'
 export NVM_DIR="$HOME/.nvm"
+export CFLAGS="-isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
 
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
