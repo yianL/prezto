@@ -70,6 +70,55 @@ set-option -g default-command "reattach-to-user-namespace -l $SHELL -l"
 Furthermore, tmux is known to cause **kernel panics** on macOS. A discussion
 about this and Prezto has already been [opened][2].
 
+## Custom Configuration
+
+This module includes a custom `tmux.conf` and a `setup.sh` script for
+bootstrapping tmux on a new machine.
+
+### What's in the config
+
+| Setting | Value |
+|---|---|
+| Prefix | `C-Space` (instead of default `C-b`) |
+| Mouse | Enabled |
+| Base index | 1 |
+| Split panes | `prefix "` horizontal, `prefix =` vertical (opens in current path) |
+| Switch panes | Alt-arrow keys (cross-platform, see below) |
+| Switch windows | `Shift-Left` / `Shift-Right` |
+| Reload config | `prefix r` |
+| Terminal | `tmux-256color` |
+
+**Plugins** (managed by [TPM](https://github.com/tmux-plugins/tpm)):
+
+- `tmux-plugins/tmux-sensible` — sensible defaults
+- `nhdaly/tmux-better-mouse-mode` — improved scroll behavior
+- `niksingh710/minimal-tmux-status` — minimal status bar theme
+
+### Setup on a new machine
+
+```sh
+bash ~/.zprezto/modules/tmux/setup.sh
+```
+
+The script will:
+1. Install tmux via Homebrew (macOS) or apt (Ubuntu/Debian)
+2. Symlink the repo's `tmux.conf` to `~/.config/tmux/tmux.conf`
+3. Clone TPM and install plugins
+
+If `~/.config/tmux/tmux.conf` already exists (and isn't a symlink), it will be
+backed up to `tmux.conf.bak` before linking.
+
+### Platform differences
+
+The Alt-arrow pane-switching keybindings differ by OS:
+
+- **macOS**: The Option key produces special characters (`¬`, `æ`, `π`, `…`),
+  which are bound directly.
+- **Linux**: Uses standard `M-Left`, `M-Right`, `M-Up`, `M-Down` Meta-key
+  sequences.
+
+The config handles this automatically via `if-shell "uname | grep -q Darwin"`.
+
 ## Authors
 
 _The authors of this module should be contacted via the [issue tracker][5]._

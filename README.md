@@ -11,19 +11,19 @@ and prompt themes.
 Prezto will work with any recent release of Zsh, but the minimum required
 version is **4.3.11**.
 
-01. Launch Zsh:
+1.  Launch Zsh:
 
     ```console
     zsh
     ```
 
-02. Clone the repository:
+2.  Clone the repository:
 
     ```console
     git clone --recursive https://github.com/yianL/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
     ```
 
-03. Create a new Zsh configuration by copying/linking the Zsh configuration
+3.  Create a new Zsh configuration by copying/linking the Zsh configuration
     files provided:
 
     ```console
@@ -48,13 +48,13 @@ version is **4.3.11**.
     back up your original configs and replace them with the provided Prezto
     [_`runcoms`_][10].
 
-04. Set Zsh as your default shell:
+4.  Set Zsh as your default shell:
 
     ```console
     chsh -s /bin/zsh
     ```
 
-05. Open a new Zsh terminal window or tab.
+5.  Open a new Zsh terminal window or tab.
 
 ### Troubleshooting
 
@@ -85,15 +85,15 @@ accompanying README files to learn about what is available.
 
 ### Modules
 
-01. Browse [_`modules`_][9] to see what is available.
-02. Load the modules you need in _`${ZDOTDIR:-$HOME}/.zpreztorc`_ and then open
+1.  Browse [_`modules`_][9] to see what is available.
+2.  Load the modules you need in _`${ZDOTDIR:-$HOME}/.zpreztorc`_ and then open
     a new Zsh terminal window or tab.
 
 ### Themes
 
-01. For a list of themes, type `prompt -l`.
-02. To preview a theme, type `prompt -p name`.
-03. Load the theme you like in _`${ZDOTDIR:-$HOME}/.zpreztorc`_ and then
+1.  For a list of themes, type `prompt -l`.
+2.  To preview a theme, type `prompt -p name`.
+3.  Load the theme you like in _`${ZDOTDIR:-$HOME}/.zpreztorc`_ and then
     open a new Zsh terminal window or tab.
 
     ![sorin theme][2]
@@ -104,8 +104,8 @@ accompanying README files to learn about what is available.
 
 ### External Modules
 
-01. By default modules will be loaded from [_`/modules`_][9] and _`/contrib`_.
-02. Additional module directories can be added to the
+1.  By default modules will be loaded from [_`/modules`_][9] and _`/contrib`_.
+2.  Additional module directories can be added to the
     `:prezto:load:pmodule-dirs` setting in _`${ZDOTDIR:-$HOME}/.zpreztorc`_.
 
     Note that module names need to be unique or they will cause an error when
@@ -122,23 +122,23 @@ accompanying README files to learn about what is available.
 The following modules are loaded (order matters), configured in
 _`zpreztorc`_:
 
-| Module | Description |
-|--------|-------------|
-| `environment` | Shell options, smart URLs, termcap colors |
-| `terminal` | Window/tab title management |
-| `utility` | General-purpose aliases and functions (safe-ops disabled) |
-| `syntax-highlighting` | Real-time command syntax highlighting |
-| `history` | History options and aliases |
-| `directory` | Directory navigation aliases and options |
-| `spectrum` | 256-color terminal utilities |
-| `history-substring-search` | Arrow-key history search |
-| `autosuggestions` | Fish-like autosuggestions |
-| `prompt` | Prompt theme loader (set to **Powerlevel10k**) |
-| `python` | Virtualenv auto-switch and virtualenvwrapper init |
-| `completion` | TAB completion via zsh-completions |
-| `homebrew` | Homebrew-specific aliases |
-| `fzf-tab` | FZF-powered tab completion (from `contrib/`) |
-| `zsh-fzf-history-search` | FZF-powered history search (from `contrib/`) |
+| Module                     | Description                                               |
+| -------------------------- | --------------------------------------------------------- |
+| `environment`              | Shell options, smart URLs, termcap colors                 |
+| `terminal`                 | Window/tab title management                               |
+| `utility`                  | General-purpose aliases and functions (safe-ops disabled) |
+| `syntax-highlighting`      | Real-time command syntax highlighting                     |
+| `history`                  | History options and aliases                               |
+| `directory`                | Directory navigation aliases and options                  |
+| `spectrum`                 | 256-color terminal utilities                              |
+| `history-substring-search` | Arrow-key history search                                  |
+| `autosuggestions`          | Fish-like autosuggestions                                 |
+| `prompt`                   | Prompt theme loader (set to **Powerlevel10k**)            |
+| `python`                   | Virtualenv auto-switch and virtualenvwrapper init         |
+| `completion`               | TAB completion via zsh-completions                        |
+| `homebrew`                 | Homebrew-specific aliases                                 |
+| `fzf-tab`                  | FZF-powered tab completion (from `contrib/`)              |
+| `zsh-fzf-history-search`   | FZF-powered history search (from `contrib/`)              |
 
 ### Prompt & AI Mode (Inactive)
 
@@ -151,15 +151,15 @@ _`zpreztorc`_:
 
 Defined in _`zshrc`_:
 
-| Alias / Function | Command |
-|------------------|---------|
-| `venv` | `source env/bin/activate` |
-| `guc` | `git reset --soft HEAD~` (undo last commit) |
-| `gco` | `git checkout` |
-| `gs` | `git status` |
-| `gaa` | `git add .` |
-| `gcm` | `git commit -m` |
-| `tma <name>` | Create or attach to a tmux session |
+| Alias / Function | Command                                     |
+| ---------------- | ------------------------------------------- |
+| `venv`           | `source env/bin/activate`                   |
+| `guc`            | `git reset --soft HEAD~` (undo last commit) |
+| `gco`            | `git checkout`                              |
+| `gs`             | `git status`                                |
+| `gaa`            | `git add .`                                 |
+| `gcm`            | `git commit -m`                             |
+| `tma <name>`     | Create or attach to a tmux session          |
 
 ### Development Tool Integration
 
@@ -174,17 +174,36 @@ Defined in _`zshrc`_:
 
 The configuration detects the OS via `uname` and adjusts:
 
-| | macOS | Linux |
-|---|-------|-------|
-| **NVM** | Loaded from `/opt/homebrew/opt/nvm/nvm.sh` | Loaded from `$NVM_DIR/nvm.sh` |
-| **Homebrew** | Evaluated via `/opt/homebrew/bin/brew shellenv` | Not used |
-| **Docker** | Default socket | `DOCKER_HOST` set to user-level rootless socket |
+|              | macOS                                           | Linux                                           |
+| ------------ | ----------------------------------------------- | ----------------------------------------------- |
+| **NVM**      | Loaded from `/opt/homebrew/opt/nvm/nvm.sh`      | Loaded from `$NVM_DIR/nvm.sh`                   |
+| **Homebrew** | Evaluated via `/opt/homebrew/bin/brew shellenv` | Not used                                        |
+| **Docker**   | Default socket                                  | `DOCKER_HOST` set to user-level rootless socket |
 
 ### Private Configuration
 
 Machine-specific or secret environment variables can be placed in
 `~/.local-env.zsh`, which is sourced from _`zshenv`_ if it exists. This
 file is not tracked by git.
+
+## Tmux
+
+This fork includes a custom tmux configuration in [`modules/tmux/`](modules/tmux#readme)
+with a setup script for bootstrapping on a new machine.
+
+**Quick start:**
+
+```console
+bash ~/.zprezto/modules/tmux/setup.sh
+```
+
+This installs tmux (via Homebrew or apt), symlinks the config to
+`~/.config/tmux/tmux.conf`, clones [TPM](https://github.com/tmux-plugins/tpm),
+and installs plugins.
+
+Key customizations: `C-Space` prefix, mouse mode, Alt-arrow pane switching
+(cross-platform), and the [minimal-tmux-status](https://github.com/niksingh710/minimal-tmux-status)
+theme. See the [module README](modules/tmux#readme) for full details.
 
 ## Customization
 
