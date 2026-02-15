@@ -20,32 +20,8 @@ version is **4.3.11**.
 02. Clone the repository:
 
     ```console
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+    git clone --recursive https://github.com/yianL/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
     ```
-
-    <details>
-      <summary><em>Optional: Installing in <code>$XDG_CONFIG_HOME</code></em></summary>
-
-      Optionally, if you already have `$XDG_CONFIG_HOME` configured (usually as
-      _`$HOME/.config`_ by default) and intend to install Prezto under
-      _`$XDG_CONFIG_HOME/zsh`_ instead, you can clone the repository there and
-      configure `$ZDOTDIR` separately if not already configured.
-
-      - Clone the repository:
-
-        ```console
-        git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}/.zprezto"
-        ```
-
-      - Configure `$XDG_CONFIG_HOME` and `$ZDOTDIR` in _`$HOME/.zshenv`_:
-
-        ```sh
-        export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"
-        export ZDOTDIR="${ZDOTDIR:=$XDG_CONFIG_HOME/zsh}"
-        source "$ZDOTDIR/.zshenv"
-        ```
-
-    </details>
 
 03. Create a new Zsh configuration by copying/linking the Zsh configuration
     files provided:
@@ -57,8 +33,15 @@ version is **4.3.11**.
     done
     ```
 
+    Alternatively, run the included helper script which does the same thing
+    (using `ln -sf` to overwrite existing symlinks):
+
+    ```console
+    ~/.zprezto/link.sh
+    ```
+
     **Note:** If you already have any of the given configuration files, `ln` in
-    the above operation will cause an error. In simple cases, you can load
+    the manual operation will cause an error. In simple cases, you can load
     Prezto by adding the line `source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"` to
     the bottom of your _`${ZDOTDIR:-$HOME}/.zshrc`_ and keep the rest of your
     Zsh configuration intact. For more complicated setups, we recommend that you
@@ -72,14 +55,6 @@ version is **4.3.11**.
     ```
 
 05. Open a new Zsh terminal window or tab.
-
-### [Fig](https://fig.io)
-
-Fig adds apps, shortcuts, and autocomplete to your existing terminal.
-
-Install `prezto` in just one click.
-
-<a href="https://fig.io/plugins/other/prezto" target="_blank"><img src="https://fig.io/badges/install-with-fig.svg" /></a>
 
 ### Troubleshooting
 
@@ -140,6 +115,77 @@ accompanying README files to learn about what is available.
     zstyle ':prezto:load' pmodule-dirs $HOME/.zprezto-contrib
     ```
 
+## What's in This Fork
+
+### Modules
+
+The following modules are loaded (order matters), configured in
+_`zpreztorc`_:
+
+| Module | Description |
+|--------|-------------|
+| `environment` | Shell options, smart URLs, termcap colors |
+| `terminal` | Window/tab title management |
+| `utility` | General-purpose aliases and functions (safe-ops disabled) |
+| `syntax-highlighting` | Real-time command syntax highlighting |
+| `history` | History options and aliases |
+| `directory` | Directory navigation aliases and options |
+| `spectrum` | 256-color terminal utilities |
+| `history-substring-search` | Arrow-key history search |
+| `autosuggestions` | Fish-like autosuggestions |
+| `prompt` | Prompt theme loader (set to **Powerlevel10k**) |
+| `python` | Virtualenv auto-switch and virtualenvwrapper init |
+| `completion` | TAB completion via zsh-completions |
+| `homebrew` | Homebrew-specific aliases |
+| `fzf-tab` | FZF-powered tab completion (from `contrib/`) |
+| `zsh-fzf-history-search` | FZF-powered history search (from `contrib/`) |
+
+### Prompt & AI Mode (Inactive)
+
+- The prompt theme is [**Powerlevel10k**][12] (configured in _`p10k.zsh`_).
+- When running inside Cursor IDE, Prezto and all themes are disabled and a
+  plain `user@host:~%` prompt is used instead, so that AI tools can parse
+  terminal output cleanly.
+
+### Custom Aliases & Functions
+
+Defined in _`zshrc`_:
+
+| Alias / Function | Command |
+|------------------|---------|
+| `venv` | `source env/bin/activate` |
+| `guc` | `git reset --soft HEAD~` (undo last commit) |
+| `gco` | `git checkout` |
+| `gs` | `git status` |
+| `gaa` | `git add .` |
+| `gcm` | `git commit -m` |
+| `tma <name>` | Create or attach to a tmux session |
+
+### Development Tool Integration
+
+- **NVM** (Node.js) — loaded from Homebrew on macOS, from `$NVM_DIR` on Linux
+- **pyenv** — Python version management (init via Homebrew)
+- **Python virtualenv** — auto-switches on `cd` into a project directory
+- **Cargo** — Rust toolchain (`~/.cargo/bin`)
+- **pnpm** — added to `PATH` from `~/.local/share/pnpm`
+- **dotnet** — `DOTNET_ROOT` set for Homebrew-installed .NET
+
+### Platform-Specific Behavior
+
+The configuration detects the OS via `uname` and adjusts:
+
+| | macOS | Linux |
+|---|-------|-------|
+| **NVM** | Loaded from `/opt/homebrew/opt/nvm/nvm.sh` | Loaded from `$NVM_DIR/nvm.sh` |
+| **Homebrew** | Evaluated via `/opt/homebrew/bin/brew shellenv` | Not used |
+| **Docker** | Default socket | `DOCKER_HOST` set to user-level rootless socket |
+
+### Private Configuration
+
+Machine-specific or secret environment variables can be placed in
+`~/.local-env.zsh`, which is sourced from _`zshenv`_ if it exists. This
+file is not tracked by git.
+
 ## Customization
 
 The project is managed via [Git][3]. We highly recommend that you fork this
@@ -166,3 +212,4 @@ This project is licensed under the MIT License.
 [9]: modules#readme
 [10]: runcoms#readme
 [11]: modules/git#readme
+[12]: https://github.com/romkatv/powerlevel10k
