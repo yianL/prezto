@@ -125,3 +125,17 @@ bindkey -r "^\\"  # disable Ctrl+\
 if [[ -s "$HOME/.openclaw/completions/openclaw.zsh" ]]; then
   source "$HOME/.openclaw/completions/openclaw.zsh"
 fi
+
+# --------------------
+# Custom functions
+# --------------------
+
+fix-cursor() {
+  local sock=$(ls -t /run/user/$(id -u)/vscode-ipc-*.sock 2>/dev/null | head -1)
+  if [[ -S "$sock" ]]; then
+    export VSCODE_IPC_HOOK_CLI="$sock"
+    echo "Set IPC socket to: $sock"
+  else
+    echo "No valid VS Code IPC socket found"
+  fi
+}
