@@ -1,12 +1,3 @@
-# if [[ "$TERM_PROGRAM" == "vscodeeee" ]]; then
-#   # Disable any theme for Cursor so that AI can use the terminal
-#   ZSH_THEME=""
-#   PROMPT='%n@%m:%~%# '
-#   RPROMPT=''
-
-# else
-# non-Cursor mode, use Prezto and Powerlevel10k
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -19,60 +10,76 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
-# --- fzf-tab ---
-# disable sort when completing `git checkout`
+# --------------------
+# fzf
+# --------------------
+
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+
+# fzf-tab settings
 zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support
-# NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
 zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-
-# -----------------------------
+# --------------------
 # PATH
-# -----------------------------
+# --------------------
 
+# Homebrew (works for both macOS /opt/homebrew and Linux /home/linuxbrew/.linuxbrew)
 if command -v brew &> /dev/null; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"  # Homebrew
-fi
-if command -v brew &> /dev/null; then
-    eval "$(pyenv init --path)"  # pyenv
+  eval "$(brew shellenv)"
 fi
 
-export PATH="$HOME/Code/gem/bin:$HOME/Code/arcanist/bin:$HOME/.cargo/bin:$PATH"  # Gem dev paths
+# pyenv
+if command -v pyenv &> /dev/null; then
+  eval "$(pyenv init --path)"
+fi
+
+export PATH="$HOME/Code/gem/bin:$HOME/Code/arcanist/bin:$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"  # dotnet
 
-case "$(uname)" in
-    "Darwin")
-        # macOS specific settings
-        [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # nvm
-	[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-        ;;
-    "Linux")
-        # Ubuntu/Linux specific settings
-        # (Assuming Ubuntu, though this catches all Linux)
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # nvm
-	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # nvm
-	export DOCKER_HOST=unix:///run/user/1000/docker.sock
-        ;;
+# dotnet (set only if the Homebrew path exists)
+if [[ -d "$(brew --prefix 2>/dev/null)/opt/dotnet/libexec" ]]; then
+  export DOTNET_ROOT="$(brew --prefix)/opt/dotnet/libexec"
+fi
+
+# nvm
+if [[ -n "$NVM_DIR" ]]; then
+  # Linux: nvm installed directly to $NVM_DIR
+  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+  [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+fi
+if command -v brew &> /dev/null; then
+  # macOS: nvm installed via Homebrew
+  local _nvm_prefix="$(brew --prefix nvm 2>/dev/null)"
+  if [[ -n "$_nvm_prefix" ]]; then
+    [[ -s "$_nvm_prefix/nvm.sh" ]] && source "$_nvm_prefix/nvm.sh"
+    [[ -s "$_nvm_prefix/etc/bash_completion.d/nvm" ]] && source "$_nvm_prefix/etc/bash_completion.d/nvm"
+  fi
+  unset _nvm_prefix
+fi
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
+# Docker (rootless) — use XDG_RUNTIME_DIR instead of hardcoded UID
+if [[ "$(uname)" == "Linux" && -S "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/docker.sock" ]]; then
+  export DOCKER_HOST="unix://${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/docker.sock"
+fi
 
-
-# -----------------------------
+# --------------------
 # History
-# -----------------------------
+# --------------------
+
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
@@ -85,9 +92,10 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-# -----------------------------
-# aliases
-# -----------------------------
+# --------------------
+# Aliases
+# --------------------
+
 alias venv="source env/bin/activate"
 alias guc="git reset --soft HEAD~"
 alias gco="git checkout"
@@ -103,22 +111,17 @@ function tma() {
 }
 
 # --------------------
-# custom key bindings
+# Key bindings
 # --------------------
-bindkey -r "^L"  # disable ^L
-bindkey -r "^\\"  # disable ^\
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
+bindkey -r "^L"   # disable Ctrl+L
+bindkey -r "^\\"  # disable Ctrl+\
 
-# OpenClaw Completion
+# --------------------
+# Completions
+# --------------------
+
+# OpenClaw
 if [[ -s "$HOME/.openclaw/completions/openclaw.zsh" ]]; then
-    source "$HOME/.openclaw/completions/openclaw.zsh"
+  source "$HOME/.openclaw/completions/openclaw.zsh"
 fi
-
