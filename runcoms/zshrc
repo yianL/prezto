@@ -118,4 +118,7 @@ esac
 # pnpm end
 
 # OpenClaw Completion
-source "$HOME/.openclaw/completions/openclaw.zsh"
+if [[ -s "$HOME/.openclaw/completions/openclaw.zsh" ]]; then
+    source "$HOME/.openclaw/completions/openclaw.zsh"
+fi
+
