@@ -126,6 +126,7 @@ _`zpreztorc`_:
 | -------------------------- | --------------------------------------------------------- |
 | `environment`              | Shell options, smart URLs, termcap colors                 |
 | `terminal`                 | Window/tab title management                               |
+| `tmux`                     | Tmux auto-start and session management                    |
 | `utility`                  | General-purpose aliases and functions (safe-ops disabled) |
 | `syntax-highlighting`      | Real-time command syntax highlighting                     |
 | `history`                  | History options and aliases                               |
@@ -136,16 +137,13 @@ _`zpreztorc`_:
 | `prompt`                   | Prompt theme loader (set to **Powerlevel10k**)            |
 | `python`                   | Virtualenv auto-switch and virtualenvwrapper init         |
 | `completion`               | TAB completion via zsh-completions                        |
-| `homebrew`                 | Homebrew-specific aliases                                 |
-| `fzf-tab`                  | FZF-powered tab completion (from `contrib/`)              |
-| `zsh-fzf-history-search`   | FZF-powered history search (from `contrib/`)              |
+| `homebrew`                 | Homebrew aliases (works on macOS and Linux)                |
+| `fzf-tab`                  | FZF-powered tab completion                                |
+| `zsh-fzf-history-search`   | FZF-powered history search                                |
 
-### Prompt & AI Mode (Inactive)
+### Prompt
 
 - The prompt theme is [**Powerlevel10k**][12] (configured in _`p10k.zsh`_).
-- When running inside Cursor IDE, Prezto and all themes are disabled and a
-  plain `user@host:~%` prompt is used instead, so that AI tools can parse
-  terminal output cleanly.
 
 ### Custom Aliases & Functions
 
@@ -159,26 +157,29 @@ Defined in _`zshrc`_:
 | `gs`             | `git status`                                |
 | `gaa`            | `git add .`                                 |
 | `gcm`            | `git commit -m`                             |
+| `gsm`            | `git stash -m`                              |
+| `gsp`            | `git stash pop`                             |
+| `gsl`            | `git stash list`                            |
 | `tma <name>`     | Create or attach to a tmux session          |
 
 ### Development Tool Integration
 
-- **NVM** (Node.js) — loaded from Homebrew on macOS, from `$NVM_DIR` on Linux
-- **pyenv** — Python version management (init via Homebrew)
+- **NVM** (Node.js) — loaded from `$NVM_DIR` or via `brew --prefix nvm` (no hardcoded paths)
+- **pyenv** — Python version management (loaded if `pyenv` is on `PATH`)
 - **Python virtualenv** — auto-switches on `cd` into a project directory
 - **Cargo** — Rust toolchain (`~/.cargo/bin`)
 - **pnpm** — added to `PATH` from `~/.local/share/pnpm`
-- **dotnet** — `DOTNET_ROOT` set for Homebrew-installed .NET
+- **dotnet** — `DOTNET_ROOT` set dynamically via `brew --prefix` if available
 
 ### Platform-Specific Behavior
 
-The configuration detects the OS via `uname` and adjusts:
+The configuration uses dynamic detection (no hardcoded paths) and adjusts:
 
-|              | macOS                                           | Linux                                           |
-| ------------ | ----------------------------------------------- | ----------------------------------------------- |
-| **NVM**      | Loaded from `/opt/homebrew/opt/nvm/nvm.sh`      | Loaded from `$NVM_DIR/nvm.sh`                   |
-| **Homebrew** | Evaluated via `/opt/homebrew/bin/brew shellenv` | Not used                                        |
-| **Docker**   | Default socket                                  | `DOCKER_HOST` set to user-level rootless socket |
+|              | macOS                                          | Linux                                           |
+| ------------ | ---------------------------------------------- | ----------------------------------------------- |
+| **NVM**      | Loaded via `brew --prefix nvm`                 | Loaded from `$NVM_DIR/nvm.sh`                   |
+| **Homebrew** | `brew shellenv` (auto-detects prefix)          | `brew shellenv` (if Linuxbrew is installed)     |
+| **Docker**   | Default socket                                 | `DOCKER_HOST` set via `$XDG_RUNTIME_DIR`        |
 
 ### Private Configuration
 
