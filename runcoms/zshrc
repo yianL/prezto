@@ -42,6 +42,8 @@ fi
 
 export PATH="$HOME/Code/gem/bin:$HOME/Code/arcanist/bin:$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+[[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
+[[ -d "$HOME/.lmstudio/bin" ]] && export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # dotnet (set only if the Homebrew path exists)
 if [[ -d "$(brew --prefix 2>/dev/null)/opt/dotnet/libexec" ]]; then
