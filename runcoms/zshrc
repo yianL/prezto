@@ -44,6 +44,9 @@ export PATH="$HOME/Code/gem/bin:$HOME/Code/arcanist/bin:$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 [[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
 [[ -d "$HOME/.lmstudio/bin" ]] && export PATH="$PATH:$HOME/.lmstudio/bin"
+export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"  # dotnet
+export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS" # obsidian
+
 
 # dotnet (set only if the Homebrew path exists)
 if [[ -d "$(brew --prefix 2>/dev/null)/opt/dotnet/libexec" ]]; then
@@ -94,23 +97,10 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-# --------------------
-# Aliases
-# --------------------
-
-alias venv="source env/bin/activate"
-alias guc="git reset --soft HEAD~"
-alias gco="git checkout"
-alias gs="git status"
-alias gaa="git add ."
-alias gcm="git commit -m"
-alias gsm="git stash -m"
-alias gsp="git stash pop"
-alias gsl="git stash list"
-
-function tma() {
-  tmux new-session -s "$1" -A
-}
+# -----------------------------
+# aliases
+# -----------------------------
+[ -f ~/.aliases ] && source ~/.aliases
 
 # --------------------
 # Key bindings
