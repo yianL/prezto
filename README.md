@@ -23,6 +23,29 @@ version is **4.3.11**.
     git clone --recursive https://github.com/yianL/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
     ```
 
+    <details>
+      <summary><em>Optional: Installing in <code>$XDG_CONFIG_HOME</code></em></summary>
+
+    Optionally, if you already have `$XDG_CONFIG_HOME` configured (usually as
+    _`$HOME/.config`_ by default) and intend to install Prezto under
+    _`$XDG_CONFIG_HOME/zsh`_ instead, you can clone the repository there and
+    configure `$ZDOTDIR` separately if not already configured.
+    - Clone the repository:
+
+      ```console
+      git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}/.zprezto"
+      ```
+
+    - Configure `$XDG_CONFIG_HOME` and `$ZDOTDIR` in _`$HOME/.zshenv`_:
+
+      ```sh
+      export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"
+      [[ -d $XDG_CONFIG_HOME/zsh ]] && export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+      source "$ZDOTDIR/.zshenv"
+      ```
+
+    </details>
+
 3.  Create a new Zsh configuration by copying/linking the Zsh configuration
     files provided:
 
@@ -137,7 +160,7 @@ _`zpreztorc`_:
 | `prompt`                   | Prompt theme loader (set to **Powerlevel10k**)            |
 | `python`                   | Virtualenv auto-switch and virtualenvwrapper init         |
 | `completion`               | TAB completion via zsh-completions                        |
-| `homebrew`                 | Homebrew aliases (works on macOS and Linux)                |
+| `homebrew`                 | Homebrew aliases (works on macOS and Linux)               |
 | `fzf-tab`                  | FZF-powered tab completion                                |
 | `zsh-fzf-history-search`   | FZF-powered history search                                |
 
@@ -175,11 +198,11 @@ Defined in _`zshrc`_:
 
 The configuration uses dynamic detection (no hardcoded paths) and adjusts:
 
-|              | macOS                                          | Linux                                           |
-| ------------ | ---------------------------------------------- | ----------------------------------------------- |
-| **NVM**      | Loaded via `brew --prefix nvm`                 | Loaded from `$NVM_DIR/nvm.sh`                   |
-| **Homebrew** | `brew shellenv` (auto-detects prefix)          | `brew shellenv` (if Linuxbrew is installed)     |
-| **Docker**   | Default socket                                 | `DOCKER_HOST` set via `$XDG_RUNTIME_DIR`        |
+|              | macOS                                 | Linux                                       |
+| ------------ | ------------------------------------- | ------------------------------------------- |
+| **NVM**      | Loaded via `brew --prefix nvm`        | Loaded from `$NVM_DIR/nvm.sh`               |
+| **Homebrew** | `brew shellenv` (auto-detects prefix) | `brew shellenv` (if Linuxbrew is installed) |
+| **Docker**   | Default socket                        | `DOCKER_HOST` set via `$XDG_RUNTIME_DIR`    |
 
 ### Private Configuration
 
