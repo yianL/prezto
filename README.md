@@ -85,21 +85,42 @@ If you are not able to find certain commands after switching to Prezto, modify
 the `PATH` variable in _`${ZDOTDIR:-$HOME}/.zprofile`_ then open a new Zsh
 terminal window or tab.
 
-## Updating
+### Updating and Syncing with Upstream (sorin-ionescu/prezto)
 
-Run `zprezto-update` to automatically check if there is an update to Prezto.
-If there are no file conflicts, Prezto and its submodules will be automatically
-updated. If there are conflicts you will be instructed to go into the
-`$ZPREZTODIR` directory and resolve them yourself.
+This fork tracks the original Prezto repository as an upstream remote. To
+bring in new commits from upstream:
 
-To pull the latest changes and update submodules manually:
+1.  **Ensure the upstream remote is configured** (one-time setup):
 
-```console
-cd $ZPREZTODIR
-git pull
-git submodule sync --recursive
-git submodule update --init --recursive
-```
+    ```console
+    git remote add upstream https://github.com/sorin-ionescu/prezto.git
+    ```
+
+2.  **Fetch and merge** the latest upstream changes:
+
+    ```console
+    git fetch upstream
+    git merge upstream/master
+    ```
+
+    Merge is preferred over rebase because this is a long-lived personal fork.
+
+3.  **Resolve conflicts.** Your customizations are concentrated in
+    `runcoms/`, `CLAUDE.md`, and a few custom modules, so conflicts should be
+    limited to those files. All other upstream changes will merge cleanly.
+
+4.  **Update submodules** after the merge:
+
+    ```console
+    git submodule sync --recursive
+    git submodule update --init --recursive
+    ```
+
+5.  **Push** once everything looks good:
+
+    ```console
+    git push origin master
+    ```
 
 ## Usage
 
